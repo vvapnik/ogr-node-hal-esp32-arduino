@@ -1,0 +1,43 @@
+{
+  "takesix": "1.0",
+  "title": "ogr-node-hal-esp32-arduino",
+  "description": "ESP32 node HAL on Arduino Wire: transport and EN pins for ogr-node-core",
+  "blocks": [
+    {
+      "id": "core",
+      "at": "C1:E1",
+      "icon": "⬡",
+      "title": "ogr-node-core",
+      "description": "Engine and interfaces",
+      "details": "External dependency: github.com/vvapnik/ogr-node-core (locally `code/core/ogr-node-core`).\n\nIt holds the protocol engine `OgrNode` and the three interfaces this package implements: `IOgrTransport`, `IOgrGpio`, `IOgrStorage`.\n\n`src/OgrNodeEsp32.h` is the single include: it pulls in `OgrNode.h` plus this package's classes. No storage class yet: anchor modules would need an NVS-backed `IOgrStorage`."
+    },
+    {
+      "id": "transport",
+      "at": "A3:C4",
+      "icon": "↔",
+      "title": "OgrEsp32NodeTransport",
+      "description": "I2C slave on Arduino Wire",
+      "details": "Source: `src/OgrEsp32NodeTransport.h`, `src/OgrEsp32NodeTransport.cpp`\n\n- Constructor: `TwoWire` (`Wire` or `Wire1`), SDA and SCL. ESP32 pins are remappable; avoid strapping pins (`0, 3, 45, 46` on S3).\n- `setAddress()` restarts the Wire slave (`end()` + `begin(newAddr)`).\n- **Why it exists:** Wire's slave restart recreates a FreeRTOS task and once lost the master's immediate `PROT_VER` check. The master now waits 50 ms after `SET_ADDR` (spec §3.1); this package checks that plain Wire works with that fix.\n- Class and namespace differ on purpose from `ogr-main`'s `OgrEsp32Transport` (the master side)."
+    },
+    {
+      "id": "gpio",
+      "at": "E3:F4",
+      "icon": "⏚",
+      "title": "EN pins",
+      "description": "OgrEsp32NodeGpio",
+      "details": "Source: `src/OgrEsp32NodeGpio.h` (`OgrEsp32NodeGpio`)\n\n- EN_IN and EN_OUT pin numbers in the constructor.\n- Plain Arduino `pinMode` / `digitalRead` / `digitalWrite`, same on ESP32, S3 and C3."
+    }
+  ],
+  "links": [
+    {
+      "from": "core",
+      "to": "transport",
+      "label": "calls"
+    },
+    {
+      "from": "core",
+      "to": "gpio",
+      "label": "calls"
+    }
+  ]
+}

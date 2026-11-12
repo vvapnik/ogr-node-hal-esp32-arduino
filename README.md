@@ -7,6 +7,9 @@ ESP32 hardware abstraction layer for [ogr-node-core](https://github.com/vvapnik/
 
 For an ESP32/ESP32-S3/ESP32-C3 acting as an OGR **Node** (I2C slave).
 
+A zoomable map of this package's parts is in
+[`ARCHITECTURE.takesix.json`](ARCHITECTURE.takesix.json) (a TakeSix diagram).
+
 ## Why this package exists alongside ogr-node-hal-esp32
 
 [`ogr-node-hal-esp32`](https://github.com/vvapnik/ogr-node-hal-esp32) (note:
@@ -46,3 +49,7 @@ modules) already claim.
 
 Not yet validated on real hardware — that's the next step, now that the
 master-side settle-delay fix is in place.
+
+---
+
+Development is assisted by [Claude Code](https://claude.com/claude-code) (Anthropic).
